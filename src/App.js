@@ -3,6 +3,7 @@ import './App.scss';
 import ColorBox from './components/ColorBox';
 import { useState } from 'react';
 import TodoList from './components/todoList';
+import TodoForm from './components/ToDoForm';
 
 function App() {
   const [toDoList, setToDoList] = useState([
@@ -23,12 +24,30 @@ function App() {
     }
   }
 
+  function handleToDoFormSubmit(formValues) {
+    console.log('Form submit: ', formValues)
+    const newToDo = {
+      id :toDoList.length + 1,
+      ...formValues,
+    }
+    const newToDoList = [...toDoList]
+    newToDoList.push(newToDo)
+    setToDoList(newToDoList)
+  }
+
   return (
     <div className="app">
       <h1>React Hook toDoList</h1>
+      <TodoForm onSubmit={handleToDoFormSubmit} />
       <TodoList todos= {toDoList} onTodoClick= {handleTodoClick} />
     </div>
   );
+  /**
+   * TodoList:
+   * -khi render nó sẽ truyền thằng toDoList(là thằng mảng mà ta cần render xuóng trên useStates()) xuống thằng props là toDo để có dữ liệu qua bên kia làm việc
+   * -Khi 1 ông nào đó trong <TodoList /> đc click nó sẽ báo lên thằng <App /> biết để gọi hàm, khi hàm được gọi và thực hiện công việc của hàm đó
+   */
+  
 }
 
 export default App;
