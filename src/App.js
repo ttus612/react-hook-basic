@@ -13,7 +13,7 @@ function App() {
 
   function handleTodoClick(todo) {
     console.log(todo)
-    const index = toDoList.findIndex(x => x.id === todo.id)
+    const index = toDoList.findIndex(x => x.id === todo.id)//tìm vị trí index và remove nó ra
     if (index < 0) {
       return
     }else{
