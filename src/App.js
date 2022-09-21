@@ -1,9 +1,10 @@
 import logo from './logo.svg';
 import './App.scss';
 import ColorBox from './components/ColorBox';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import TodoList from './components/todoList';
 import TodoForm from './components/ToDoForm';
+import PostList from './components/PostList';
 
 function App() {
   const [toDoList, setToDoList] = useState([
@@ -11,6 +12,25 @@ function App() {
     { id: 2, title: 'We love Easy Fontend ! 😍'},
     { id: 3, title: 'They love Easy Fontend! 😘'}
   ]);
+
+  const [postList, setPostList] = useState([])
+
+  useEffect(()=>{
+    async function fetchPostList() {
+      try {
+        const requestURL = 'http://js-post-api.herokuapp.com/api/posts?_limit=10&_page=1';
+        const reponse = await fetch(requestURL)
+        const reponseJSON = await reponse.json()
+        console.log(reponseJSON)
+
+        const {data} = reponseJSON
+        setPostList(data)
+      } catch (error) {
+        console.log('Lấy API thất bại', error.message)
+      }
+    }
+    fetchPostList();
+  }, [])
 
   function handleTodoClick(todo) {
     console.log(todo)
@@ -37,9 +57,12 @@ function App() {
 
   return (
     <div className="app">
-      <h1>React Hook toDoList</h1>
-      <TodoForm onSubmit={handleToDoFormSubmit} />
-      <TodoList todos= {toDoList} onTodoClick= {handleTodoClick} />
+      {/* <h1>React Hook toDoList</h1> */}
+      {/* <TodoForm onSubmit={handleToDoFormSubmit} /> */}
+      {/* <TodoList todos= {toDoList} onTodoClick= {handleTodoClick} /> */}
+
+      <h1>React Post list</h1>
+      <PostList posts={postList} />
     </div>
   );
   /**
